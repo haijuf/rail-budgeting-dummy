@@ -58,10 +58,16 @@ function createPlanningMenu(label, icon) {
 }
 const menuGroups = [
   { label: 'OVERVIEW', items: [{ label: 'Dashboard', icon: 'DB' }] },
-  { label: 'ADMINISTRATION', items: [{ label: 'Management User', icon: 'US', badge: '12' }, { label: 'Management Role', icon: 'AC' }, { label: 'Management Form', icon: 'FM' }, { label: 'Management Archive', icon: 'AR' }] },
+  { label: 'ADMINISTRATION', items: [{ label: 'Management User', icon: 'US', badge: '12' }, { label: 'Management Role', icon: 'AC' }, { label: 'Management Form', icon: 'FM' }, createPlanningMenu('Management Archive', 'AR')] },
   { label: 'MASTER DATA', items: [{ label: 'Master Data Perawatan', icon: 'MT' }] },
   { label: 'PLANNING', items: [createPlanningMenu('Prognosa', 'PR'), createPlanningMenu('RKAP', 'RK')] },
 ]
+const visibleGroupsByRole = {
+  'Super User': ['OVERVIEW', 'ADMINISTRATION', 'MASTER DATA', 'PLANNING'],
+  'Vice manager': ['OVERVIEW', 'PLANNING'],
+  Manager: ['OVERVIEW', 'PLANNING'],
+  Specialist: ['OVERVIEW', 'PLANNING'],
+}
 const pageCopy = {
   'Management Form': { eyebrow: 'FORM BUILDER', title: 'Management Form', description: 'Siapkan template form untuk pengumpulan data anggaran.', action: 'Buat Form Baru', columns: ['Nama form', 'Periode', 'Pengisi', 'Status'], rows: [['Form RKA 2025', 'FY 2025', '28 unit kerja', 'Published'], ['Realisasi Q3', 'Q3 2024', '18 unit kerja', 'Draft'], ['Revisi Prognosa', 'FY 2024', '12 unit kerja', 'Published']] },
   'Management Archive': { eyebrow: 'DOCUMENT ARCHIVE', title: 'Management Archive', description: 'Temukan dokumen dan histori pengajuan yang telah diarsipkan.', action: 'Upload Dokumen', columns: ['Nama dokumen', 'Kategori', 'Periode', 'Diarsipkan'], rows: [['RKAP Konsolidasi 2023', 'RKAP', 'FY 2023', '18 Jan 2024'], ['Laporan Prognosa Q4', 'Prognosa', 'Q4 2023', '12 Jan 2024'], ['Berita Acara RKA', 'Administrasi', 'FY 2023', '04 Jan 2024']] },
@@ -76,6 +82,18 @@ function pageForMenu(menu) {
 const allUsersSelected = computed(() => userRows.value.length > 0 && selectedUsers.value.length === userRows.value.length)
 const selectedActiveUsers = computed(() => userRows.value.filter((user) => selectedUsers.value.includes(user.npp) && user.status === 'Active'))
 const selectedInactiveUsers = computed(() => userRows.value.filter((user) => selectedUsers.value.includes(user.npp) && user.status === 'Non Active'))
+const visibleMenuGroups = computed(() => {
+  const allowedGroups = visibleGroupsByRole[activeRole.value] || visibleGroupsByRole.Specialist
+  return menuGroups.filter((group) => allowedGroups.includes(group.label))
+})
+function menuItemContains(item, menu) {
+  return (item.value || item.label) === menu || item.sections?.some((section) => section.value === menu || section.items?.some((child) => child.value === menu))
+}
+
+function changeRole(role) {
+  activeRole.value = role
+  if (!visibleMenuGroups.value.some((group) => group.items.some((item) => menuItemContains(item, activeMenu.value)))) activeMenu.value = 'Dashboard'
+}
 
 function openUserModal() { newUser.value = { npp: '', name: '' }; showUserModal.value = true }
 function openStatusModal(user) {
@@ -134,7 +152,7 @@ function confirmStatus(type) {
 </script>
 
 <template>
-  <MenuShell :active-menu="activeMenu" :active-role="activeRole" :menu-groups="menuGroups" @change-menu="activeMenu = $event" @update:active-role="activeRole = $event">
+  <MenuShell :active-menu="activeMenu" :active-role="activeRole" :menu-groups="visibleMenuGroups" @change-menu="activeMenu = $event" @update:active-role="changeRole">
     <DashboardView v-if="activeMenu === 'Dashboard'" />
     <Usermanagamentpage v-else-if="activeMenu === 'Management User'" />
     <ManagementAccessView v-else-if="activeMenu === 'Management Role'" :roles="roles" :role-menus="roleMenus" :protected-roles="protectedRoleNames" @add-role="openRoleModal()" @edit-role="openRoleModal" @delete-role="requestDeleteRole" />

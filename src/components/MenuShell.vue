@@ -24,7 +24,7 @@
       </nav>
       <div class="sidebar-bottom"><div class="help-card"><span>?</span><div><strong>Butuh bantuan?</strong><small>Hubungi tim support</small></div></div><div class="user-profile"><div class="profile-avatar">AD</div><div><strong>Adi Nugraha</strong><small>{{ activeRole }}</small></div><button>•••</button></div></div>
     </aside>
-    <main class="main-content"><header class="topbar"><div class="breadcrumbs"><span>Workspace</span><b>/</b><strong>{{ activeMenu }}</strong></div><div class="topbar-actions"><label>View as <select :value="activeRole" @change="$emit('update:activeRole', $event.target.value)"><option>Super User</option><option>Finance Admin</option><option>Viewer</option></select></label><button>♧</button><button>⚙</button></div></header><slot /></main>
+    <main class="main-content"><header class="topbar"><div class="breadcrumbs"><span>Workspace</span><b>/</b><strong>{{ activeMenu }}</strong></div><div class="topbar-actions"><label>View as <select :value="activeRole" @change="$emit('update:activeRole', $event.target.value)"><option>Super User</option><option>Vice manager</option><option>Manager</option><option>Specialist</option></select></label><button>♧</button><button>⚙</button></div></header><slot /></main>
   </div>
 </template>
 
