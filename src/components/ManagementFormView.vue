@@ -62,9 +62,9 @@
           <input v-model="searchQuery" placeholder="Cari nama formulir" />
         </label>
 
-        <select v-model="divisiFilter" class="fm-select" aria-label="Filter divisi">
-          <option value="semua">Semua divisi</option>
-          <option v-for="d in divisiOptions" :key="d" :value="d">{{ d }}</option>
+        <select v-model="direktoratFilter" class="fm-select" aria-label="Filter direktorat">
+          <option value="semua">Semua direktorat</option>
+          <option v-for="d in direktoratOptions" :key="d" :value="d">{{ d }}</option>
         </select>
 
         <div class="fm-chips">
@@ -85,10 +85,9 @@
           <thead>
             <tr>
               <th>Nama formulir</th>
-              <th>Divisi</th>
+              <th>Direktorat</th>
               <th>RKAP dipublish</th>
               <th>Prognosa open</th>
-              <th>Menunggu approval</th>
               <th>Diperbarui</th>
               <th class="fm-right">Aksi</th>
             </tr>
@@ -102,7 +101,7 @@
                 <div class="fm-name">{{ row.form.name }}</div>
                 <div class="fm-muted">Per {{ CATEGORY_TYPES[row.form.cat].label }} ({{ row.form.units.length }})</div>
               </td>
-              <td>{{ row.form.divisi }}</td>
+              <td>{{ row.form.direktorat }}</td>
               <td>
                 <div class="fm-meter"><span :style="{ width: pct(row.s.published, row.s.total) + '%' }"></span></div>
                 <div class="fm-muted">{{ row.s.published }} dari {{ row.s.total }}</div>
@@ -110,13 +109,6 @@
               <td>
                 <div class="fm-meter fm-meter--teal"><span :style="{ width: pct(row.s.progOpen, row.s.total) + '%' }"></span></div>
                 <div class="fm-muted">{{ row.s.progOpen }} dari {{ row.s.total }}</div>
-              </td>
-              <td>
-                <div class="fm-badges">
-                  <span v-if="row.s.rkapNeed" class="fm-badge fm-badge--warn">RKAP {{ row.s.rkapNeed }}</span>
-                  <span v-if="row.s.progNeed" class="fm-badge fm-badge--warn">Prognosa {{ row.s.progNeed }}</span>
-                  <span v-if="!row.s.rkapNeed && !row.s.progNeed" class="fm-muted">Tidak ada</span>
-                </div>
               </td>
               <td class="fm-muted">{{ fmtDate(row.form.lastUpdated) }}</td>
               <td class="fm-right">
@@ -135,7 +127,7 @@
           <header class="fm-drawer__head">
             <div>
               <div class="fm-crumb">
-                {{ selectedForm.divisi }} · Per {{ catLabel }} · Diperbarui {{ fmtDate(selectedForm.lastUpdated) }}
+                {{ selectedForm.direktorat }} · Per {{ catLabel }} · Diperbarui {{ fmtDate(selectedForm.lastUpdated) }}
               </div>
               <h2>{{ selectedForm.name }}</h2>
             </div>
@@ -728,22 +720,22 @@ const CATEGORY_TYPES = {
 
 // 16 formulir tetap
 const FORM_BLUEPRINTS = [
-  { name: 'Usulan Hari Kerja Balai Yasa', divisi: 'Balai Yasa', cat: 'balai', lastUpdated: '2026-09-18' },
-  { name: 'Usulan Produksi Sarana', divisi: 'Sarana', cat: 'sarana', lastUpdated: '2026-09-20' },
-  { name: 'Usulan Produksi Prasarana Sintel Pemerintah', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-15' },
-  { name: 'Usulan Produksi Prasarana Rel KAI', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-12' },
-  { name: 'Usulan Produksi Prasarana Jembatan KAI', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-12' },
-  { name: 'Usulan Produksi Asset Prasarana Sintel', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-10' },
-  { name: 'Usulan Produksi Penumpang', divisi: 'Komersial', cat: 'area', lastUpdated: '2026-09-22' },
-  { name: 'Usulan Produksi Pelayanan', divisi: 'Komersial', cat: 'area', lastUpdated: '2026-09-21' },
-  { name: 'Usulan Produksi Perawatan Sarana', divisi: 'Sarana', cat: 'sarana', lastUpdated: '2026-09-19' },
-  { name: 'Usulan Tanggungan Balai Yasa', divisi: 'Balai Yasa', cat: 'balai', lastUpdated: '2026-09-08' },
-  { name: 'Usulan Produksi Prasarana Rel Pemerintah', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-09' },
-  { name: 'Usulan Produksi Prasarana Jembatan Pemerintah', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-09' },
-  { name: 'Usulan Produksi Asset Prasarana Jalan Jembatan', divisi: 'Prasarana', cat: 'area', lastUpdated: '2026-09-07' },
-  { name: 'Usulan Produksi Sumber Daya Manusia', divisi: 'SDM', cat: 'area', lastUpdated: '2026-09-17' },
-  { name: 'Usulan Produksi Barang', divisi: 'Logistik', cat: 'area', lastUpdated: '2026-09-14' },
-  { name: 'Usulan Norma Kendali Kecelakaan Kereta Api', divisi: 'Keselamatan & Operasi', cat: 'area', lastUpdated: '2026-09-23' },
+  { name: 'Usulan Hari Kerja Balai Yasa', direktorat: 'Balai Yasa', cat: 'balai', lastUpdated: '2026-09-18' },
+  { name: 'Usulan Produksi Sarana', direktorat: 'Sarana', cat: 'sarana', lastUpdated: '2026-09-20' },
+  { name: 'Usulan Produksi Prasarana Sintel Pemerintah', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-15' },
+  { name: 'Usulan Produksi Prasarana Rel KAI', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-12' },
+  { name: 'Usulan Produksi Prasarana Jembatan KAI', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-12' },
+  { name: 'Usulan Produksi Asset Prasarana Sintel', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-10' },
+  { name: 'Usulan Produksi Penumpang', direktorat: 'Komersial', cat: 'area', lastUpdated: '2026-09-22' },
+  { name: 'Usulan Produksi Pelayanan', direktorat: 'Komersial', cat: 'area', lastUpdated: '2026-09-21' },
+  { name: 'Usulan Produksi Perawatan Sarana', direktorat: 'Sarana', cat: 'sarana', lastUpdated: '2026-09-19' },
+  { name: 'Usulan Tanggungan Balai Yasa', direktorat: 'Balai Yasa', cat: 'balai', lastUpdated: '2026-09-08' },
+  { name: 'Usulan Produksi Prasarana Rel Pemerintah', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-09' },
+  { name: 'Usulan Produksi Prasarana Jembatan Pemerintah', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-09' },
+  { name: 'Usulan Produksi Asset Prasarana Jalan Jembatan', direktorat: 'Prasarana', cat: 'area', lastUpdated: '2026-09-07' },
+  { name: 'Usulan Produksi Sumber Daya Manusia', direktorat: 'SDM', cat: 'area', lastUpdated: '2026-09-17' },
+  { name: 'Usulan Produksi Barang', direktorat: 'Logistik', cat: 'area', lastUpdated: '2026-09-14' },
+  { name: 'Usulan Norma Kendali Kecelakaan Kereta Api', direktorat: 'Keselamatan & Operasi', cat: 'area', lastUpdated: '2026-09-23' },
 ]
 
 const TABS = [
@@ -875,7 +867,7 @@ const forms = reactive(
   FORM_BLUEPRINTS.map((f, i) => ({
     id: i + 1,
     name: f.name,
-    divisi: f.divisi,
+    direktorat: f.direktorat,
     cat: f.cat,
     lastUpdated: f.lastUpdated,
     units: buildUnits(i, f.cat),
@@ -936,10 +928,10 @@ const overview = computed(() => {
  * Daftar formulir
  * ========================================================== */
 const searchQuery = ref('')
-const divisiFilter = ref('semua')
+const direktoratFilter = ref('semua')
 const listFilter = ref('semua')
 
-const divisiOptions = computed(() => [...new Set(forms.map(f => f.divisi))])
+const direktoratOptions = computed(() => [...new Set(forms.map(f => f.direktorat))])
 const listChips = [
   { key: 'semua', label: 'Semua' },
   { key: 'approval', label: 'Menunggu approval' },
@@ -950,7 +942,7 @@ const formRows = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
   return forms
     .filter(f => !q || f.name.toLowerCase().includes(q))
-    .filter(f => divisiFilter.value === 'semua' || f.divisi === divisiFilter.value)
+    .filter(f => direktoratFilter.value === 'semua' || f.direktorat === direktoratFilter.value)
     .map(f => ({ form: f, s: formStats(f) }))
     .filter(r => {
       if (listFilter.value === 'approval') return r.s.rkapNeed + r.s.progNeed > 0

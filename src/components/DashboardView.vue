@@ -228,7 +228,7 @@
                   </th>
                   <th>No</th>
                   <th>Nama Form</th>
-                  <th>Divisi / Area</th>
+                  <th>Direktorat / Area</th>
                   <th>Approve VP</th>
                   <th>Penutupan RKAP</th>
                   <th>Sisa Waktu</th>
@@ -263,7 +263,7 @@
                   </td>
                   <td>
                     <div class="cell-stack">
-                      <strong>{{ form.divisi }}</strong>
+                      <strong>{{ form.direktorat }}</strong>
                       <span>{{ form.lokasi }}</span>
                     </div>
                   </td>
@@ -345,7 +345,7 @@
                   </th>
                   <th>No</th>
                   <th>Nama Form</th>
-                  <th>Divisi / Area</th>
+                  <th>Direktorat / Area</th>
                   <th>Approve VP</th>
                   <th>Penutupan Prognosa</th>
                   <th>Sisa Waktu</th>
@@ -380,7 +380,7 @@
                   </td>
                   <td>
                     <div class="cell-stack">
-                      <strong>{{ form.divisi }}</strong>
+                      <strong>{{ form.direktorat }}</strong>
                       <span>{{ form.lokasi }}</span>
                     </div>
                   </td>
@@ -439,7 +439,7 @@
 
           <ul v-if="rejectModal.targets.length > 1" class="modal__list">
             <li v-for="t in rejectModal.targets" :key="t.id">
-              {{ t.namaForm }} <small>· {{ t.divisi }}</small>
+              {{ t.namaForm }} <small>· {{ t.direktorat }}</small>
             </li>
           </ul>
 
@@ -508,7 +508,7 @@ const forms = ref([
     id: 1,
     kode: 'RKAP-2027-001',
     namaForm: 'Usulan Produksi Sarana',
-    divisi: 'Angkutan Barang',
+    direktorat: 'Angkutan Barang',
     lokasi: 'DAOP 1 JAKARTA',
     type: 'rkap',
     status: 'approval_su',
@@ -522,7 +522,7 @@ const forms = ref([
     id: 2,
     kode: 'RKAP-2027-002',
     namaForm: 'Usulan Prasarana Jembatan KAI',
-    divisi: 'Prasarana',
+    direktorat: 'Prasarana',
     lokasi: 'DAOP 4 SEMARANG',
     type: 'rkap',
     status: 'approval_su',
@@ -536,7 +536,7 @@ const forms = ref([
     id: 3,
     kode: 'RKAP-2027-003',
     namaForm: 'Usulan Produksi Penumpang',
-    divisi: 'Angkutan Penumpang',
+    direktorat: 'Angkutan Penumpang',
     lokasi: 'DAOP 6 YOGYAKARTA',
     type: 'rkap',
     status: 'publish',
@@ -550,7 +550,7 @@ const forms = ref([
     id: 4,
     kode: 'PROG-2026-014',
     namaForm: 'Prognosa Produksi Sarana',
-    divisi: 'Sarana',
+    direktorat: 'Sarana',
     lokasi: 'DAOP 1 JAKARTA',
     type: 'prognosa',
     status: 'approval_su',
@@ -564,7 +564,7 @@ const forms = ref([
     id: 5,
     kode: 'PROG-2026-015',
     namaForm: 'Prognosa Prasarana',
-    divisi: 'Prasarana',
+    direktorat: 'Prasarana',
     lokasi: 'DAOP 3 CIREBON',
     type: 'prognosa',
     status: 'approval_su',
@@ -578,7 +578,7 @@ const forms = ref([
     id: 6,
     kode: 'PROG-2026-016',
     namaForm: 'Prognosa Angkutan Penumpang',
-    divisi: 'Angkutan Penumpang',
+    direktorat: 'Angkutan Penumpang',
     lokasi: 'DAOP 6 YOGYAKARTA',
     type: 'prognosa',
     status: 'open',
